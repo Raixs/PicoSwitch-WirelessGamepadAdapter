@@ -6,4 +6,4 @@ services:
       - .:/project
     environment:
       - PICO_SDK_FETCH_FROM_GIT=1
-    command: bash -c "git submodule update --init --recursive && make build && cp build/PicoSwitchWGA.uf2 ."
+    command: bash -c "git config --global --add safe.directory /project && git submodule update --init --recursive && make build && cp build/PicoSwitchWGA.uf2 ."

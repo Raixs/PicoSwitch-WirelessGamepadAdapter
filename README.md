@@ -24,7 +24,8 @@ https://github.com/juan518munoz/PicoSwitch-WirelessGamepadAdapter/assets/6240050
    ```bash
    docker compose run --rm build
    ```
-   The generated `PicoSwitchWGA.uf2` file will appear in the project root.
+   The generated `PicoSwitchWGA.uf2` file will appear in the project root. The container pre-configures Git to trust the mounted
+   directory, preventing "dubious ownership" errors.
 
 ### Manual build
 
