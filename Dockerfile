@@ -5,8 +5,10 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
     make \
+    python3 \
     gcc-arm-none-eabi \
     libnewlib-arm-none-eabi \
+    patch \
     && rm -rf /var/lib/apt/lists/*
 
 # Allow git to operate on mounted project directories without ownership warnings

@@ -27,6 +27,8 @@ https://github.com/juan518munoz/PicoSwitch-WirelessGamepadAdapter/assets/6240050
    The generated `PicoSwitchWGA.uf2` file will appear in the project root. The container pre-configures Git to trust the mounted
    directory, preventing "dubious ownership" errors.
 
+   **Note:** The Docker build includes an automatic patch for BTStack API compatibility. See [Known Issues](#known-issues) for details.
+
 ### Manual build
 
 1. Install Make, CMake (at least version 3.13), and GCC cross compiler
@@ -48,12 +50,53 @@ https://github.com/juan518munoz/PicoSwitch-WirelessGamepadAdapter/assets/6240050
    ```
    This `make` command will only work on OSes where the mounted pico drive is located in `/media/${USER}/RPI-RP2`. If this is not the case, you can manually copy the `.uf2` file located inside the `build` directory to the pico drive.
 
+   **Important:** For manual builds, you may need to apply a compatibility patch for BTStack. See [Known Issues](#known-issues) for details.
+
 #### Other `make` commands:
 - `clean` - Clean build directory.
 - `flash_nuke` - Flash the pico with `flash_nuke.uf2` which will erase the flash memory. This is useful when the pico is stuck in a boot loop.
 - `all` - `build` and `flash`.
 - `format` - Format the code using `clang-format`. This requires `clang-format` to be installed.
 - `debug` - Start _minicom_ to debug the pico. This requires `minicom` to be installed and uart debugging.
+
+## Known Issues
+
+### BTStack API Compatibility
+
+The current version of the Bluepad32 submodule may have compatibility issues with the BTStack HID parser API. If you encounter compilation errors related to `btstack_hid_parser_t` structure members, you need to apply the following patch:
+
+**File:** `bluepad32/src/components/bluepad32/parser/uni_hid_parser.c`
+
+**Lines 41-46:** Replace the following code:
+```c
+// BEFORE (causes compilation error)
+parser.global_logical_minimum = 0;
+parser.global_logical_maximum = 0;
+parser.global_report_count = 0;
+parser.global_report_id = 0;
+parser.global_report_size = 0;
+parser.global_usage_page = 0;
+```
+
+**With:**
+```c
+// AFTER (fixed version)
+parser.usage_iterator.global_logical_minimum = 0;
+parser.usage_iterator.global_logical_maximum = 0;
+parser.usage_iterator.global_report_count = 0;
+parser.usage_iterator.global_report_id = 0;
+parser.usage_iterator.global_report_size = 0;
+parser.usage_iterator.global_usage_page = 0;
+```
+
+**Explanation:** The BTStack library structure `btstack_hid_parser_t` changed its API, and the global fields are now accessed through the `usage_iterator` member instead of being direct fields.
+
+**Automatic fix:** You can apply this patch automatically by running:
+```bash
+./apply-btstack-patch.sh
+```
+
+**Note:** The Docker build automatically applies this patch, so this manual fix is only needed for manual builds.
 
 ## Development roadmap
 - [x] Bluetooth connection.

@@ -2,13 +2,15 @@ services:
   build:
     build: .
     working_dir: /project
+    network_mode: host
     volumes:
       - .:/project
     environment:
-      - PICO_SDK_FETCH_FROM_GIT=1
+      - PICO_SDK_PATH=/project/pico-sdk
     command: >
       bash -c "git config --global --add safe.directory /project && \
                git config --file .gitmodules --get-regexp path | awk '{print $$2}' | xargs -I{} git config --global --add safe.directory /project/{} && \
-               git submodule update --init --recursive && \
+               git config --global --add safe.directory /project/bluepad32/external/btstack && \
+               if [ -f apply-btstack-patch.sh ]; then ./apply-btstack-patch.sh; fi && \
                make build && \
                cp build/PicoSwitchWGA.uf2 ."
