@@ -37,7 +37,7 @@ include_directories(PicoSwitchWGA src)
 
 target_link_libraries(PicoSwitchWGA
     pico_stdlib
-    pico_cyw43_arch_none
+    pico_cyw43_arch_lwip_threadsafe_background
     pico_btstack_classic
     pico_btstack_cyw43
     bluepad32
