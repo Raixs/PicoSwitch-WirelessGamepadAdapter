@@ -1,0 +1,21 @@
+--- a/bluepad32/src/components/bluepad32/parser/uni_hid_parser.c
++++ b/bluepad32/src/components/bluepad32/parser/uni_hid_parser.c
+@@ -38,12 +38,12 @@ void uni_hid_parser_init(uni_hid_device_t* d) {
+     btstack_hid_parser_t parser;
+     parser.has_more = 1;
+     parser.descriptor = d->hid_descriptor;
+-    parser.global_logical_minimum = 0;
+-    parser.global_logical_maximum = 0;
+-    parser.global_report_count = 0;
+-    parser.global_report_id = 0;
+-    parser.global_report_size = 0;
+-    parser.global_usage_page = 0;
++    parser.usage_iterator.global_logical_minimum = 0;
++    parser.usage_iterator.global_logical_maximum = 0;
++    parser.usage_iterator.global_report_count = 0;
++    parser.usage_iterator.global_report_id = 0;
++    parser.usage_iterator.global_report_size = 0;
++    parser.usage_iterator.global_usage_page = 0;
+     parser.value = 0;
+     
+     while (parser.has_more) {
