@@ -48,7 +48,7 @@ target_link_libraries(PicoSwitchWGA
 
 add_subdirectory(bluepad32/src/components/bluepad32 libbluepad32)
 
-pico_enable_stdio_usb(PicoSwitchWGA 0)
+pico_enable_stdio_usb(PicoSwitchWGA 1)
 pico_enable_stdio_uart(PicoSwitchWGA 0)
 
 # create map/bin/hex/uf2 file in addition to ELF.
