@@ -18,6 +18,16 @@ https://github.com/juan518munoz/PicoSwitch-WirelessGamepadAdapter/assets/6240050
    ![image](https://github.com/juan518munoz/PicoSwitch-WirelessGamepadAdapter/assets/62400508/9185e9d4-0b41-44cb-83b8-f706c67d144c)
 
 ## Building
+### Using Docker
+
+1. Build the project inside a container:
+   ```bash
+   docker compose run --rm build
+   ```
+   The generated `PicoSwitchWGA.uf2` file will appear in the project root.
+
+### Manual build
+
 1. Install Make, CMake (at least version 3.13), and GCC cross compiler
    ```bash
    sudo apt-get install make cmake gdb-arm-none-eabi gcc-arm-none-eabi build-essential

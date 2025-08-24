@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  build:
+    build: .
+    working_dir: /project
+    volumes:
+      - .:/project
+    environment:
+      - PICO_SDK_FETCH_FROM_GIT=1
+    command: bash -c "git submodule update --init --recursive && make build && cp build/PicoSwitchWGA.uf2 ."
